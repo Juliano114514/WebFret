@@ -1,4 +1,4 @@
-import { measureLength, tunings, type Beat, type WebFretDocument } from './model';
+import { measureLength, tunings, type Beat, type WebFretDocument } from './model.ts';
 
 // Emit literals, never concatenate user text as alphaTex commands.
 export function texString(value: string): string {
@@ -12,6 +12,7 @@ function beatTex(beat: Beat, chordId: string | null): string {
   });
   const effects: string[] = [];
   if (beat.dotted) effects.push('d');
+  if (beat.tuplet === 3) effects.push('tu 3');
   if (beat.brush !== 'none' && notes.length > 1) effects.push(beat.brush === 'down' ? 'bd' : 'bu');
   if (chordId) effects.push('ch ' + texString(chordId));
   beat.lyrics.forEach((text, i) => {
@@ -22,7 +23,7 @@ function beatTex(beat: Beat, chordId: string | null): string {
   return `:${beat.duration} ${content}${effects.length ? '{' + effects.join(' ') + '}' : ''}`;
 }
 export function compileAlphaTex(doc: WebFretDocument): string {
-  if (doc.score.kind !== 'editable') throw new Error('GP 文件不使用基础谱编译器');
+  if (doc.score.kind !== 'editable') throw new Error('该曲目需要先生成基础练习谱');
   const s = doc.score;
   const chords = new Map<string, { name: string; frets: number[] }>();
   const chordIds = new Map<string, string>();
@@ -55,7 +56,11 @@ export function compileAlphaTex(doc: WebFretDocument): string {
   );
   lines.push(`\\ts ${s.numerator} ${s.denominator}`);
   s.measures.forEach((m, i) => {
-    let remaining = s.numerator / s.denominator - measureLength(m);
+    const numerator = m.numerator ?? s.numerator;
+    const denominator = m.denominator ?? s.denominator;
+    const previous = s.measures[i - 1];
+    if (numerator !== (previous?.numerator ?? s.numerator) || denominator !== (previous?.denominator ?? s.denominator)) lines.push(`\\ts ${numerator} ${denominator}`);
+    let remaining = numerator / denominator - measureLength(m);
     if (remaining < -0.00001) throw new Error(`第 ${i + 1} 小节时值超过拍号容量`);
     const contents = m.beats.map((b) =>
       beatTex(b, b.chord ? chordIds.get(JSON.stringify(b.chord))! : null),

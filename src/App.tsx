@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Library from './Library';
 import Song from './Song';
+import SourceSong from './SourceSong';
+import { createSourceDocument, type SourceVersion } from './sourceScore';
 import { Icon, Modal } from './components';
 import { exportBackup, importFile, MAX_DOCUMENT_BYTES } from './files';
 import {
@@ -171,13 +173,13 @@ export default function App() {
       `#/${edit ? 'edit' : 'play'}/${fromRepo ? 'repo' : 'local'}/${encodeURIComponent(id)}`,
     );
   }
-  async function create(instrument: Instrument, title: string): Promise<void> {
+  async function create(instrument: Instrument, title: string, notation: 'editable' | SourceVersion['notation']): Promise<void> {
     try {
-      const next = createDocument(instrument, title);
+      const next = notation === 'editable' ? createDocument(instrument, title) : createSourceDocument(instrument, title, notation);
       await save(next);
       open(next.id, false, true);
-    } catch {
-      /* save reports the error */
+    } catch (error) {
+      notify(error instanceof Error ? error.message : '新建曲目失败，请重试');
     }
   }
   async function copy(source: WebFretDocument, edit: boolean): Promise<void> {
@@ -186,8 +188,8 @@ export default function App() {
       await save(next);
       open(next.id, false, edit);
       notify(edit ? '已建立本机副本，可以开始编辑' : '已收藏到本机，断网也能继续练习');
-    } catch {
-      /* save reports the error */
+    } catch (error) {
+      notify(error instanceof Error ? error.message : '曲目复制失败，请重试');
     }
   }
   function pickFile(mode: 'import' | 'restore'): void {
@@ -233,7 +235,7 @@ export default function App() {
     }
   }
   return (
-    <div className={`app-shell ${isSong ? 'has-transport' : ''}`}>
+    <div className={`app-shell ${isSong && doc?.score.kind !== 'source' ? 'has-transport' : ''}`}>
       <aside className="sidebar">
         <a className="brand" href="#/">
           <img src={import.meta.env.BASE_URL + 'icons/logo.svg'} alt="" />
@@ -297,7 +299,7 @@ export default function App() {
           </a>
           <span className="topbar-breadcrumb">
             我的音乐空间 <span>/</span>{' '}
-            {isSong ? (editing ? '基础制谱' : '读谱与练习') : onlyMine ? '我的曲目' : '曲谱与练习'}
+            {isSong ? (editing ? doc?.score.kind === 'source' ? '原谱录入' : '基础制谱' : '读谱与练习') : onlyMine ? '我的曲目' : '曲谱与练习'}
           </span>
           <div
             className={`network-badge ${pwa.ready ? 'ready' : ''}`}
@@ -329,7 +331,18 @@ export default function App() {
         <main>
           {isSong ? (
             doc ? (
-              <Song
+              doc.score.kind === 'source' ? <SourceSong
+                key={doc.id}
+                initial={doc}
+                repo={repo}
+                editing={editing}
+                back={() => navigate('#/')}
+                toggleEdit={() => open(doc.id, false, !editing)}
+                copy={copy}
+                save={save}
+                openGenerated={async (next) => { await save(next); open(next.id, false); notify('已保存独立练习副本；可以试听和编辑建议指法'); }}
+                notify={notify}
+              /> : <Song
                 key={doc.id}
                 initial={doc}
                 repo={repo}
@@ -353,7 +366,7 @@ export default function App() {
               onlyMine={onlyMine}
               catalogError={catalogError}
               open={open}
-              create={(instrument, title) => void create(instrument, title)}
+              create={(instrument, title, notation) => void create(instrument, title, notation)}
               import={() => pickFile('import')}
               remove={(target) => {
                 void storage

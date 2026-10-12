@@ -279,7 +279,7 @@ export default function Editor({
             第 {barIndex + 1} 小节 · 拍点 {beatIndex + 1}
           </h3>
           <span>
-            {Math.round(measureLength(measure) * score.denominator * 100) / 100} / {score.numerator}{' '}
+            {Math.round(measureLength(measure) * (measure.denominator ?? score.denominator) * 100) / 100} / {measure.numerator ?? score.numerator}{' '}
             拍
           </span>
         </div>

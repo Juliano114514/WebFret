@@ -271,6 +271,7 @@ export default function Song({
           </div>
         </div>
       </header>
+      {doc.score.kind === 'editable' && doc.score.arrangement && <div className="source-intro"><Icon name="music" size={20} /><div><b>练习编配建议 · {doc.score.arrangement.key} 调</b><p>{doc.score.arrangement.summary[0]}</p>{doc.score.arrangement.summary.filter((s) => /八度|音区/.test(s)).map((s, i) => <p className="review-note" key={i}>{s}</p>)}<details><summary>查看节奏、指型与来源说明</summary>{doc.score.arrangement.summary.slice(1).map((s, i) => <p key={i}>{s}</p>)}<p className="helper">此副本可以修改。共同原谱仍保留；导出 GP 主要保存声音与谱面，建议来源请用 WebFret 文件保管。</p></details></div></div>}
       <div className={`workspace ${editing ? 'is-editing' : ''}`}>
         <div className="score-column">
           <section className="score-card">
@@ -304,7 +305,7 @@ export default function Song({
                 <h2>{doc.title || '未命名练习曲'}</h2>
                 <p>{doc.artist || '我的创作'}</p>
                 <div className="paper-details">
-                  <span>♩ = {doc.score.tempo}</span>
+                  <span>♩ = {doc.score.kind === 'source' ? '未知' : doc.score.tempo}</span>
                   {doc.score.kind === 'editable' && (
                     <>
                       <span>

@@ -26,6 +26,7 @@ async function catalog(): Promise<CatalogEntry[]> {
           instrument: doc.score.instrument,
           measureCount: measureCount(doc),
           kind: doc.score.kind,
+          ...(doc.score.kind === 'source' ? { instruments: [...new Set(doc.score.versions.map((v) => v.instrument))] } : {}),
         };
       }
       if (buffer.length > 10 * 1024 * 1024) throw new Error(`GP 文件不能超过 10 MB: ${file}`);

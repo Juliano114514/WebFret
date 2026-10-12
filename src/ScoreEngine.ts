@@ -170,7 +170,8 @@ export class ScoreEngine {
     try {
       if (doc.score.kind === 'editable')
         this.api.tex(compileAlphaTex(doc), [doc.practice.selectedTrack]);
-      else this.api.load(base64ToBytes(doc.score.base64), [doc.practice.selectedTrack]);
+      else if (doc.score.kind === 'guitar-pro') this.api.load(base64ToBytes(doc.score.base64), [doc.practice.selectedTrack]);
+      else throw new Error('原谱需要先补全并生成练习副本');
     } catch (error) {
       this.emit({
         rendering: false,

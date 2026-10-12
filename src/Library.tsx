@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Icon, Modal } from './components';
+import type { SourceVersion } from './sourceScore';
 import {
   instrumentNames,
   measureCount,
@@ -14,7 +15,7 @@ interface Props {
   onlyMine: boolean;
   catalogError: boolean;
   open: (id: string, repo: boolean) => void;
-  create: (instrument: Instrument, title: string) => void;
+  create: (instrument: Instrument, title: string, notation: 'editable' | SourceVersion['notation']) => void;
   import: () => void;
   remove: (doc: WebFretDocument) => void;
   retryCatalog: () => void;
@@ -35,12 +36,13 @@ export default function Library({
   const [newDialog, setNewDialog] = useState(false);
   const [newInstrument, setNewInstrument] = useState<Instrument>('guitar');
   const [newTitle, setNewTitle] = useState('');
+  const [newNotation, setNewNotation] = useState<'editable' | SourceVersion['notation']>('numbered');
   const [deleteTarget, setDeleteTarget] = useState<WebFretDocument | null>(null);
   const matches = (title: string, artist: string, kind: Instrument) =>
     `${title} ${artist}`.toLowerCase().includes(query.toLowerCase()) &&
     (instrument === 'all' || (instrument === 'guitar' ? kind === 'guitar' : kind !== 'guitar'));
-  const mine = docs.filter((d) => matches(d.title, d.artist, d.score.instrument));
-  const repository = catalog.filter((d) => matches(d.title, d.artist, d.instrument));
+  const mine = docs.filter((d) => d.score.kind === 'source' ? d.score.versions.some((v) => matches(d.title, d.artist, v.instrument)) : matches(d.title, d.artist, d.score.instrument));
+  const repository = catalog.filter((d) => d.kind === 'source' ? `${d.title} ${d.artist}`.toLowerCase().includes(query.toLowerCase()) && (instrument === 'all' || d.instruments?.some((i) => instrument === 'guitar' ? i === 'guitar' : i !== 'guitar')) : matches(d.title, d.artist, d.instrument));
   return (
     <>
       <header className="page-header">
@@ -169,7 +171,7 @@ export default function Library({
               <h2>
                 仓库曲库 <span>{repository.length}</span>
               </h2>
-              <p>精选练习，随时出发</p>
+              <p>原图、共同旋律与四种演奏方式</p>
             </div>
             <span className="muted small">
               <Icon name="book" size={15} /> GitHub 维护
@@ -198,13 +200,13 @@ export default function Library({
                     </div>
                     <div className="card-body">
                       <div className="card-tags">
-                        <span>{entry.instrument === 'guitar' ? '六线谱' : '四线谱'}</span>
-                        <span>{entry.kind === 'guitar-pro' ? 'GP 曲谱' : '基础曲谱'}</span>
+                        <span>{entry.kind === 'source' ? '三类谱源' : entry.instrument === 'guitar' ? '六线谱' : '四线谱'}</span>
+                        <span>{entry.kind === 'source' ? '四种演奏' : entry.kind === 'guitar-pro' ? 'GP 曲谱' : '基础曲谱'}</span>
                       </div>
                       <h3>{entry.title}</h3>
                       <p>{entry.artist || '未知作者'}</p>
                       <div className="card-bottom">
-                        <span>{entry.measureCount} 小节</span>
+                        <span>{entry.measureCount} {entry.kind === 'source' ? '行 / 小节' : '小节'}</span>
                         <span className="card-start">
                           开始练习 <Icon name="arrow" size={14} />
                         </span>
@@ -263,7 +265,7 @@ export default function Library({
                     </p>
                   </div>
                 </button>
-                <span className="personal-count">{measureCount(doc)} 小节</span>
+                <span className="personal-count">{measureCount(doc)} {doc.score.kind === 'source' ? '行 / 小节' : '小节'}</span>
                 <span className="small muted personal-date">
                   {new Date(doc.updatedAt).toLocaleDateString('zh-CN', {
                     month: 'short',
@@ -300,6 +302,15 @@ export default function Library({
             />
           </label>
           <label>
+            录入格式
+            <select value={newNotation} onChange={(e) => setNewNotation(e.target.value as typeof newNotation)}>
+              <option value="numbered">数字简谱 · 旋律与时值</option>
+              <option value="tablature">弦品 / 指弹谱 · 时值可以未知</option>
+              <option value="chord-chart">歌词和弦谱 · 切换位置</option>
+              <option value="editable">基础六线 / 四线练习谱</option>
+            </select>
+          </label>
+          <label>
             乐器与调弦
             <select
               value={newInstrument}
@@ -312,11 +323,11 @@ export default function Library({
               ))}
             </select>
           </label>
-          <p className="helper">默认 4/4 拍、80 BPM、4 个空小节，之后可以调整。</p>
+          <p className="helper">{newNotation === 'editable' ? '默认 4/4 拍、80 BPM、4 个空小节，之后可以调整。' : '添加原图，按小节或乐句录入。未知时值 / 指法可以留空；每首歌可增加不同谱源。'}</p>
           <button
             className="button primary full"
             onClick={() => {
-              create(newInstrument, newTitle.trim() || '未命名练习曲');
+              create(newInstrument, newTitle.trim() || '未命名练习曲', newNotation);
               setNewDialog(false);
             }}
           >

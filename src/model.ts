@@ -1,3 +1,6 @@
+import { sourceCount, validateSourceScore, type ArrangementInfo, type SourceScore } from './sourceScore.ts';
+export type { ArrangementInfo, SourceScore } from './sourceScore.ts';
+
 export type Instrument = 'guitar' | 'ukulele-high' | 'ukulele-low';
 export type Duration = 1 | 2 | 4 | 8 | 16 | 32;
 export type Slide = 'none' | 'shift' | 'legato';
@@ -15,6 +18,7 @@ export interface Beat {
   id: string;
   duration: Duration;
   dotted: boolean;
+  tuplet?: 3;
   notes: FretNote[];
   brush: 'none' | 'up' | 'down';
   lyrics: string[];
@@ -23,6 +27,8 @@ export interface Beat {
 export interface Measure {
   id: string;
   beats: Beat[];
+  numerator?: number;
+  denominator?: 2 | 4 | 8;
 }
 export interface EditableScore {
   kind: 'editable';
@@ -32,6 +38,7 @@ export interface EditableScore {
   denominator: 2 | 4 | 8;
   capo: number;
   measures: Measure[];
+  arrangement?: ArrangementInfo;
 }
 export interface ImportedGpScore {
   kind: 'guitar-pro';
@@ -74,7 +81,7 @@ export interface WebFretDocument {
   artist: string;
   createdAt: string;
   updatedAt: string;
-  score: EditableScore | ImportedGpScore;
+  score: EditableScore | ImportedGpScore | SourceScore;
   practice: PracticeSettings;
 }
 export interface CatalogEntry {
@@ -82,9 +89,10 @@ export interface CatalogEntry {
   title: string;
   artist: string;
   instrument: Instrument;
+  instruments?: Instrument[];
   measureCount: number;
   file: string;
-  kind: 'editable' | 'guitar-pro';
+  kind: 'editable' | 'guitar-pro' | 'source';
 }
 export const instrumentNames: Record<Instrument, string> = {
   guitar: '吉他',
@@ -174,10 +182,14 @@ export function createDocument(instrument: Instrument, title = '未命名练习�
   };
 }
 export function measureCount(doc: WebFretDocument): number {
-  return doc.score.kind === 'editable' ? doc.score.measures.length : doc.score.measureCount;
+  return doc.score.kind === 'editable'
+    ? doc.score.measures.length
+    : doc.score.kind === 'source'
+      ? sourceCount(doc.score)
+      : doc.score.measureCount;
 }
-export function beatLength(beat: Pick<Beat, 'duration' | 'dotted'>): number {
-  return (1 / beat.duration) * (beat.dotted ? 1.5 : 1);
+export function beatLength(beat: Pick<Beat, 'duration' | 'dotted' | 'tuplet'>): number {
+  return (1 / beat.duration) * (beat.dotted ? 1.5 : 1) * (beat.tuplet === 3 ? 2 / 3 : 1);
 }
 export function measureLength(measure: Measure): number {
   return measure.beats.reduce((n, b) => n + beatLength(b), 0);
@@ -239,7 +251,7 @@ export function validateDocument(input: unknown): WebFretDocument {
   if (doc.format !== 'webfret' || doc.version !== 1) throw new Error('仅支持 WebFret v1 曲目文件');
   const source = object(doc.score);
   const instrument = choice(source.instrument, ['guitar', 'ukulele-high', 'ukulele-low'] as const);
-  let score: EditableScore | ImportedGpScore;
+  let score: EditableScore | ImportedGpScore | SourceScore;
   if (source.kind === 'editable') {
     const numerator = number(source.numerator, 1, 12, true);
     const denominator = choice(source.denominator, [2, 4, 8] as const);
@@ -252,6 +264,8 @@ export function validateDocument(input: unknown): WebFretDocument {
     };
     const measures = list(source.measures, 2000).map((raw) => {
       const m = object(raw);
+      const measureNumerator = m.numerator === undefined ? undefined : number(m.numerator, 1, 12, true);
+      const measureDenominator = m.denominator === undefined ? undefined : choice(m.denominator, [2, 4, 8] as const);
       const beats = list(m.beats, 128).map((rawBeat) => {
         const b = object(rawBeat);
         const usedStrings = new Set<number>();
@@ -274,7 +288,7 @@ export function validateDocument(input: unknown): WebFretDocument {
           if (frets.length !== tunings[instrument].length) throw new Error('和弦弦数与乐器不符');
           chord = { name: text(c.name, 40), frets };
         }
-        return {
+        const beat: Beat = {
           id: id(b.id),
           duration: choice(b.duration, [1, 2, 4, 8, 16, 32] as const),
           dotted: bool(b.dotted),
@@ -283,9 +297,13 @@ export function validateDocument(input: unknown): WebFretDocument {
           lyrics: list(b.lyrics, 4).map((v) => text(v, 100)),
           chord,
         };
+        if (b.tuplet !== undefined) beat.tuplet = choice(b.tuplet, [3] as const);
+        return beat;
       });
-      const measure = { id: id(m.id), beats };
-      if (!beats.length || measureLength(measure) > numerator / denominator + 0.00001)
+      const measure: Measure = { id: id(m.id), beats };
+      if (measureNumerator !== undefined) measure.numerator = measureNumerator;
+      if (measureDenominator !== undefined) measure.denominator = measureDenominator;
+      if (!beats.length || measureLength(measure) > (measureNumerator ?? numerator) / (measureDenominator ?? denominator) + 0.00001)
         throw new Error('小节为空或时值超过拍号容量');
       return measure;
     });
@@ -313,6 +331,18 @@ export function validateDocument(input: unknown): WebFretDocument {
       capo: number(source.capo, 0, 12, true),
       measures,
     };
+    if (source.arrangement !== undefined) {
+      const a = object(source.arrangement);
+      score.arrangement = {
+        scenario: choice(a.scenario, ['guitar-accompaniment', 'guitar-fingerstyle', 'ukulele-accompaniment', 'ukulele-fingerstyle'] as const),
+        sourceId: text(a.sourceId, 100),
+        key: text(a.key, 40),
+        summary: list(a.summary, 200).map((v) => text(v, 1000)),
+        suggested: bool(a.suggested),
+      };
+      if (a.sourceIds !== undefined) score.arrangement.sourceIds = list(a.sourceIds, 8).map((v) => text(v, 100));
+      if (a.originSongId !== undefined) score.arrangement.originSongId = text(a.originSongId, 100);
+    }
   } else if (source.kind === 'guitar-pro') {
     const base64 = text(source.base64, Math.ceil((10 * 1024 * 1024) / 3) * 4);
     if (
@@ -330,8 +360,9 @@ export function validateDocument(input: unknown): WebFretDocument {
       trackCount: number(source.trackCount, 1, 64, true),
       tempo: number(source.tempo, 1, 1000),
     };
-  } else throw new Error('不支持的曲目类型');
-  const count = score.kind === 'editable' ? score.measures.length : score.measureCount;
+  } else if (source.kind === 'source') score = validateSourceScore(source);
+  else throw new Error('不支持的曲目类型');
+  const count = score.kind === 'editable' ? score.measures.length : score.kind === 'source' ? sourceCount(score) : score.measureCount;
   const p = object(doc.practice);
   const trackMix: Record<string, TrackMix> = {};
   for (const [key, value] of Object.entries(object(p.trackMix))) {
@@ -355,7 +386,7 @@ export function validateDocument(input: unknown): WebFretDocument {
     selectedTrack: number(
       p.selectedTrack,
       0,
-      score.kind === 'editable' ? 0 : score.trackCount - 1,
+      score.kind === 'guitar-pro' ? score.trackCount - 1 : 0,
       true,
     ),
     trackMix,
