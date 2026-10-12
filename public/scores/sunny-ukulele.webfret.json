@@ -1,0 +1,855 @@
+{
+  "format": "webfret",
+  "version": 1,
+  "id": "sunny-ukulele",
+  "title": "四根弦的晴天",
+  "artist": "WebFret 原创练习",
+  "createdAt": "2026-10-12T00:00:00.000Z",
+  "updatedAt": "2026-10-12T00:00:00.000Z",
+  "score": {
+    "kind": "editable",
+    "instrument": "ukulele-high",
+    "tempo": 88,
+    "numerator": 4,
+    "denominator": 4,
+    "capo": 0,
+    "measures": [
+      {
+        "id": "sunny-ukulele-m0",
+        "beats": [
+          {
+            "id": "sunny-ukulele-m0-b0",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 1,
+                "fret": 3,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 2,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 3,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 4,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "down",
+            "lyrics": [
+              "四"
+            ],
+            "chord": {
+              "name": "C",
+              "frets": [
+                3,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "id": "sunny-ukulele-m0-b1",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 2,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "根"
+            ],
+            "chord": null
+          },
+          {
+            "id": "sunny-ukulele-m0-b2",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 1,
+                "fret": 3,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "弦"
+            ],
+            "chord": null
+          },
+          {
+            "id": "sunny-ukulele-m0-b3",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 2,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "轻响"
+            ],
+            "chord": null
+          }
+        ]
+      },
+      {
+        "id": "sunny-ukulele-m1",
+        "beats": [
+          {
+            "id": "sunny-ukulele-m1-b0",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 1,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 2,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 3,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 4,
+                "fret": 2,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "down",
+            "lyrics": [
+              "小"
+            ],
+            "chord": {
+              "name": "Am",
+              "frets": [
+                0,
+                0,
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "id": "sunny-ukulele-m1-b1",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 2,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "小"
+            ],
+            "chord": null
+          },
+          {
+            "id": "sunny-ukulele-m1-b2",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 1,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "的"
+            ],
+            "chord": null
+          },
+          {
+            "id": "sunny-ukulele-m1-b3",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 2,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "晴天"
+            ],
+            "chord": null
+          }
+        ]
+      },
+      {
+        "id": "sunny-ukulele-m2",
+        "beats": [
+          {
+            "id": "sunny-ukulele-m2-b0",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 1,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 2,
+                "fret": 1,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 3,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 4,
+                "fret": 2,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "down",
+            "lyrics": [
+              "四"
+            ],
+            "chord": {
+              "name": "F",
+              "frets": [
+                0,
+                1,
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "id": "sunny-ukulele-m2-b1",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 2,
+                "fret": 1,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "根"
+            ],
+            "chord": null
+          },
+          {
+            "id": "sunny-ukulele-m2-b2",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 1,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "弦"
+            ],
+            "chord": null
+          },
+          {
+            "id": "sunny-ukulele-m2-b3",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 2,
+                "fret": 1,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "轻响"
+            ],
+            "chord": null
+          }
+        ]
+      },
+      {
+        "id": "sunny-ukulele-m3",
+        "beats": [
+          {
+            "id": "sunny-ukulele-m3-b0",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 1,
+                "fret": 2,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 2,
+                "fret": 3,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 3,
+                "fret": 2,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 4,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "down",
+            "lyrics": [
+              "小"
+            ],
+            "chord": {
+              "name": "G",
+              "frets": [
+                2,
+                3,
+                2,
+                0
+              ]
+            }
+          },
+          {
+            "id": "sunny-ukulele-m3-b1",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 2,
+                "fret": 3,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "小"
+            ],
+            "chord": null
+          },
+          {
+            "id": "sunny-ukulele-m3-b2",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 1,
+                "fret": 2,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "的"
+            ],
+            "chord": null
+          },
+          {
+            "id": "sunny-ukulele-m3-b3",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 2,
+                "fret": 3,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "晴天"
+            ],
+            "chord": null
+          }
+        ]
+      },
+      {
+        "id": "sunny-ukulele-m4",
+        "beats": [
+          {
+            "id": "sunny-ukulele-m4-b0",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 1,
+                "fret": 3,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 2,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 3,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 4,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "down",
+            "lyrics": [
+              "四"
+            ],
+            "chord": {
+              "name": "C",
+              "frets": [
+                3,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "id": "sunny-ukulele-m4-b1",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 2,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "根"
+            ],
+            "chord": null
+          },
+          {
+            "id": "sunny-ukulele-m4-b2",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 1,
+                "fret": 3,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "弦"
+            ],
+            "chord": null
+          },
+          {
+            "id": "sunny-ukulele-m4-b3",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 2,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "轻响"
+            ],
+            "chord": null
+          }
+        ]
+      },
+      {
+        "id": "sunny-ukulele-m5",
+        "beats": [
+          {
+            "id": "sunny-ukulele-m5-b0",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 1,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 2,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 3,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 4,
+                "fret": 2,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "down",
+            "lyrics": [
+              "小"
+            ],
+            "chord": {
+              "name": "Am",
+              "frets": [
+                0,
+                0,
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "id": "sunny-ukulele-m5-b1",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 2,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "小"
+            ],
+            "chord": null
+          },
+          {
+            "id": "sunny-ukulele-m5-b2",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 1,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "的"
+            ],
+            "chord": null
+          },
+          {
+            "id": "sunny-ukulele-m5-b3",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 2,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "晴天"
+            ],
+            "chord": null
+          }
+        ]
+      },
+      {
+        "id": "sunny-ukulele-m6",
+        "beats": [
+          {
+            "id": "sunny-ukulele-m6-b0",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 1,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 2,
+                "fret": 1,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 3,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 4,
+                "fret": 2,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "down",
+            "lyrics": [
+              "四"
+            ],
+            "chord": {
+              "name": "F",
+              "frets": [
+                0,
+                1,
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "id": "sunny-ukulele-m6-b1",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 2,
+                "fret": 1,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "根"
+            ],
+            "chord": null
+          },
+          {
+            "id": "sunny-ukulele-m6-b2",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 1,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "弦"
+            ],
+            "chord": null
+          },
+          {
+            "id": "sunny-ukulele-m6-b3",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 2,
+                "fret": 1,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "轻响"
+            ],
+            "chord": null
+          }
+        ]
+      },
+      {
+        "id": "sunny-ukulele-m7",
+        "beats": [
+          {
+            "id": "sunny-ukulele-m7-b0",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 1,
+                "fret": 2,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 2,
+                "fret": 3,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 3,
+                "fret": 2,
+                "tie": false,
+                "slide": "none"
+              },
+              {
+                "string": 4,
+                "fret": 0,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "down",
+            "lyrics": [
+              "小"
+            ],
+            "chord": {
+              "name": "G",
+              "frets": [
+                2,
+                3,
+                2,
+                0
+              ]
+            }
+          },
+          {
+            "id": "sunny-ukulele-m7-b1",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 2,
+                "fret": 3,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "小"
+            ],
+            "chord": null
+          },
+          {
+            "id": "sunny-ukulele-m7-b2",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 1,
+                "fret": 2,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "的"
+            ],
+            "chord": null
+          },
+          {
+            "id": "sunny-ukulele-m7-b3",
+            "duration": 4,
+            "dotted": false,
+            "notes": [
+              {
+                "string": 2,
+                "fret": 3,
+                "tie": false,
+                "slide": "none"
+              }
+            ],
+            "brush": "none",
+            "lyrics": [
+              "晴天"
+            ],
+            "chord": null
+          }
+        ]
+      }
+    ]
+  },
+  "practice": {
+    "blockSize": 2,
+    "start": 1,
+    "end": 2,
+    "speed": 1,
+    "looping": true,
+    "metronome": false,
+    "countIn": false,
+    "selectedTrack": 0,
+    "trackMix": {},
+    "segments": []
+  }
+}

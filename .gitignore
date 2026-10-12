@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.verification/
+public/font/
+public/soundfont/
+*.tsbuildinfo
+.DS_Store
